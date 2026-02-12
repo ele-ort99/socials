@@ -1,0 +1,89 @@
+
+/* ESTILOS GENERALES */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to left,#c42a82, #2de1c0 );
+  font-family: "Jersey 25", sans-serif;
+  font-weight: 700;
+  font-style: normal; 
+  overflow-x: hidden;
+  button:hover{
+    background-color: white;
+  }  
+}
+
+
+/* ESTILOS DEL NAVBAR */
+.navbar{
+background: linear-gradient(135deg, #efaf1f, #f48c06, #d9822b);
+  a{
+    color: #c42a82;
+}
+  button{
+    background-color: #2de1c0;
+    color: black;
+  }
+}
+
+/* ESTILOS DEL APARTADO PRINCPIAL (donde está el logo) */
+ .intro{
+color: white;
+background: rgb(0, 0, 0);
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+img{
+  width: 500px;
+}
+}
+
+/* ESILOS EN EL INDEX -> CARTAS DE JUGADORES */
+.base{
+margin-inline: 2rem;
+h2{
+  padding-bottom: 2rem;
+}
+}
+
+/* ESTILOS PARA LOS FORMULARIOS */
+.ppal-form{
+  margin-block: 7rem;
+}
+form{
+background-color: #c42a82;
+color: white;
+font-weight: lighter;
+width: 400px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 1rem;
+text-align: left;
+border: 1px solid transparent;
+border-radius: 25px;
+margin-inline: calc(50% - 200px);
+padding: 2rem;
+
+button:hover{
+  background-color: #2de1c0;
+}
+
+.msg-allert{
+  padding-inline-start: 1rem;
+  background-color:  #f48c06;
+  color: white;
+  font-size: 20px;
+}
+}
+
+/* ESTILO PARA EL FOOTER */
+.footer{
+  margin: 0;
+}
+

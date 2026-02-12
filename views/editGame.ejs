@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>SOCIALS</title>
+     <!-- Links comunes -->
+    <%-include('modules/links.ejs')%>
+  </head>
+<!-- BODY -->
+  <body>
+  <!-- NAVBAR -->
+    <header>
+      <%-include('modules/navbar.ejs')%>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main>
+      <section class="ppal-form">
+        <div>
+          <h2 class="text-center p-2">MODIFICA TU JUEGO</h2>
+        </div>
+        <!-- FORMULARIO PARA EDITAR JUEGO -->
+        <div class="form">
+          <form
+            action="/games/editGame/<%= gameEdited.id_game %>/<%= gameEdited.id_user %>"
+            method="post"
+          >   
+
+          <div class="form"></div>
+        <!-- Mensaje de error por si falta algo -->
+              <p class="msg-allert">
+                <%= message %>
+              </p>
+              <!-- Nombre del juego-->
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Nombre:</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                value="<%= gameEdited.name %>"
+              >
+            
+            <!-- Review-->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Reseña: </label>
+              <input
+                type="text"
+                name="review"
+                class="form-control"
+                value="<%= gameEdited.review %>"
+              >
+            </div>
+            <!-- Estrellas / puntuación-->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Puntuación: </label>
+              <select name="stars">
+                <option value="">Elige una puntuación</option>
+                <option value ="1"
+                  <%=gameEdited.stars==1 ? "selected" : "" %> >⭐
+                </option>
+                 <option value ="2"
+                  <%=gameEdited.stars==2 ? "selected" : "" %> >⭐⭐
+                </option>
+                 <option value ="3"
+                  <%=gameEdited.stars==3 ? "selected" : "" %> >⭐⭐⭐
+                </option>
+                 <option value ="4"
+                  <%=gameEdited.stars==4 ? "selected" : "" %> >⭐⭐⭐⭐
+                </option>
+                 <option value ="5"
+                  <%=gameEdited.stars==5 ? "selected" : "" %> >⭐⭐⭐⭐⭐
+                </option>
+              </select>
+            </div>
+            <!-- Plataforma -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Plataforma: </label>
+              <input
+                type="text"
+                name="platform"
+                class="form-control"
+                value="<%= gameEdited.platform %>"
+              >
+            </div>
+            <!-- Botones para enviar, vovler o resetear -->
+            <div class="btn d-flex justify-content-evenly">
+              <button
+                class="my-btn mt-3"
+                type="submit"
+              >Enviar</button>
+              <button
+                class="my-btn mt-3"
+                onclick="window.location.href='/users/<%= gameEdited.id_user %>'"
+              >volver</button>
+              <button
+                class="my-btn mt-3"
+                type="reset"
+              >Borrar</button>
+            </div>
+            </form>
+         </div>
+      </section>
+</main>
+     <!-- FOOTER -->
+    <footer>
+      <%-include('modules/footer.ejs')%>
+    </footer>
+  </body>
+
+</html>

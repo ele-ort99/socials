@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SOCIALS</title>
+    <!-- Estilos para las cartas de usuarios -->
+    <link
+      rel='stylesheet'
+      href='/stylesheets/card-user.css'
+    />
+    <!-- Estilos para las cartas de juegos -->
+    <link
+      rel='stylesheet'
+      href='/stylesheets/card-games.css'
+    />
+<!-- Links comunes -->
+    <%-include('modules/links.ejs')%>
+  </head>
+
+  <!-- BODY -->
+  <body>
+     <!-- NAVBAR -->
+   <header>
+      <%-include('modules/navbar.ejs')%>
+    </header>
+
+    <!-- cONTENIDO -->
+     <main>
+     <!-- Carta del jugador seleccionado -->
+      <section class="cont-users-private">
+        <h2>
+          <%= thisUser.name %> <%= thisUser.last_name %>
+        </h2>
+        <img
+          class="card-img-top target"
+          src="/images/usuarios/<%= thisUser.image %>"
+        >
+        <br>
+        <h4>
+          <%= thisUser.preferences %>
+
+        </h4>
+          <!--  Acciones que se pueden hacer en el usuario  -->
+        <div class="btn">
+          <button
+            onclick="window.location.href='/games/openAddGame/<%= thisUser.id_user %>'"
+          >Añadir juego al usuario</button>
+          <button
+            onclick="window.location.href='/users/editUser/<%= thisUser.id_user %>'"
+          >Editar usuario</button>
+          <button
+            onclick="window.location.href='/users/deletedTotalUser/<%= thisUser.id_user %>'"
+          >Borrar usuario</button>
+          <button
+            onclick="window.location.href='/users/deletedUser/<%= thisUser.id_user %>'"
+          >Borrar usuario de vistas</button>
+        </div>
+      </section>
+
+<!-- Cartas de juegos de cada usuario -->
+      <section>
+        <h2 class="text-center">MI REPOSITORIO DE JUEGOS</h2>
+        <div class="row justify-content-center g-3 ms-3 me-3">
+          <% game.forEach((elem)=>{ %>
+
+            <div class="card shadow-lg m-3 col-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="row d-flex">
+                <div class="izq col-12 col-lg-6">
+                  <img
+                    class="card-img-top"
+                    src="/images/juegos/<%= elem.image %>"
+                  >
+                  <h3 class="card-title">
+                    <%= elem.name%>
+                  </h3>
+                  <a
+                    href="/games/editGame/<%= elem.id_game %>"
+                    class="btn"
+                  >Modificar</a>
+                  <a
+                    href="/games/deletedTotalGame/<%= elem.id_game %>/<%= elem.id_user %>"
+                    class="btn btn"
+                  >Borrado total</a>
+                  <a
+                    href="/games/deletedGame/<%= elem.id_game %>/<%= elem.id_user %>"
+                    class="btn"
+                  >Borrado en vistas</a>
+                </div>
+
+                <div class=" derch col-12 col-lg-6">
+                  <ul class="list-group list-group-flush">
+                    <li>
+                      <h4>Reseña:</h4>
+                      <p>
+                        <%= elem.review %>
+                      </p>
+                    </li>
+                    <li>
+                      <% let rating = "" %>
+                        <% for(let i = 0; i < elem.stars; i++){
+                          rating +="⭐"} %>
+                          
+                          <h4>Puntuación:</h4>
+                          <p> <%= rating %> </p>
+                    </li>
+                    <li>
+                      <h4>Plataforma:</h4>
+                      <p>
+                        <%= elem.platform %>
+                      </p>
+                    </li>
+                    <li>
+                      <h4>Año de publicación:</h4>
+                      <p>
+                        <%= elem.year_publication %>
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <% }) %>
+        </div>
+      </section>
+  </main>
+
+
+         <!-- FOOTER -->
+    <footer>
+      <%-include('modules/footer.ejs')%>
+    </footer>
+
+  </body>
+
+</html>

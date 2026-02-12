@@ -1,0 +1,23 @@
+/* ESTILOS PARA LAS CARTAS DE USUARIO EN SU PERFIL */
+.cont-users-private{
+  height: 600px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img{
+    width:300px;
+    height: 300px;
+    object-fit: cover;
+  }
+  button{
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding-inline: 1rem;
+    padding-block: .5rem;
+  }
+  button:hover{
+    background-color: #2de1c0;
+  }
+}

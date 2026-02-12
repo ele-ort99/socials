@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>SOCIALS</title>
+    <!-- Links comunes -->
+    <%-include('modules/links.ejs')%>
+  </head>
+
+  <!-- BODY -->
+  <body>
+
+    <!-- NAVBAR -->
+    <header>
+      <%-include('modules/navbar.ejs')%>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main>
+      <section class="ppal-form">
+        <div>
+          <h2 class="text-center p-2">Añade un juego</h2>
+        </div>
+
+        <!-- FORMULARIO PARA AÑADIR JUEGO DENTRO DEL USUARIO -->
+        <div class="form-row">
+          <form
+            action="/games/addGame/<%= userId %>"
+            method="post"
+            enctype="multipart/form-data"
+          >
+
+            <div>
+              <!-- Mensaje de error por si falta algo -->
+              <p class="msg-allert">
+                <%= message %>
+              </p>
+              <!-- Nombre -->
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Nombre:</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Enter name"
+              >
+            </div>
+            <!-- Reseña -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Reseña: </label>
+              <input
+                type="text"
+                name="review"
+                class="form-control"
+              >
+            </div>
+            <!-- puntación / estrellas -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Puntuación: </label>
+              <select name="stars">
+                <option value="">Elige una puntuación</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+              </select>
+            </div>
+            <!-- Plataforma -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Plataforma: </label>
+              <input
+                type="text"
+                name="platform"
+                class="form-control"
+              >
+            </div>
+            <!-- Año de publicación -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Año de publicación: </label>
+              <input
+                type="text"
+                name="year_publication"
+                class="form-control"
+              >
+            </div>
+            <!-- Foto del juego -->
+            <div class="mb-3">
+              <label
+                for="foto"
+                class="form-label text-center position-absolute"
+              >Añade una image
+                <br>
+                <img src="/images/iconphoto.png"></label>
+              <input
+                type="file"
+                class="form-control"
+                id="foto"
+                name="image"
+                hidden
+              />
+            </div>
+            <!-- Botones para enviar y para resetear -->
+            <div class="btn d-flex justify-content-evenly">
+              <button
+                class="my-btn mt-3"
+                type="submit"
+              >Enviar</button>
+              <button
+                class="my-btn mt-3"
+                type="reset"
+              >Borrar</button>
+            </div>
+
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <%-include('modules/footer.ejs')%>
+    </footer>
+
+  </body>
+
+</html>

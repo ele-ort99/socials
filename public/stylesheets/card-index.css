@@ -1,0 +1,37 @@
+/* ESTILOS PARA LAS CARTAS DE LOS USUARIOS EN EL INDEX */
+.cards{    
+  justify-content: space-around;
+  height: 100%;
+  margin: 1rem;
+  .card{
+    background: linear-gradient(70deg, #ebb433, #e78c31);
+    color: #c42a82;
+    width: 17rem;
+    height: fit-content;
+    margin-block: 1.5rem;
+    h4{
+    font-size: 30px;
+    font-weight: bold;
+  }
+  }
+  img{
+    padding-top: 1rem;
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+  }
+  a{
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: lighter;
+    color: black;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: .5rem;
+    background-color: #2de1c0; 
+  }
+  a:hover{
+    background-color: white;
+    color: black;
+  }
+}

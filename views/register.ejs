@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>SOCIALS</title>
+     <!-- Links comunes -->
+    <%-include('modules/links.ejs')%>
+  </head>
+
+  <!-- BODY -->
+  <body>
+    
+     <!-- NAVBAR -->
+   <header>
+      <%-include('modules/navbar.ejs')%>
+    </header>
+
+
+<!-- CONTENIDO -->
+    <main>
+      <section class="ppal-form">
+        <div>
+          <h2 class="text-center p-2">Inscripción</h2>
+        </div>
+        <!-- Formulario de inscripción -->
+        <div class="form">
+          <form
+            action="/users/register"
+            method="post"
+            enctype="multipart/form-data"
+          >
+           <!-- Mensaje de error por si falta algo -->
+              <p class="msg-allert">
+                <%= message %>
+              </p>
+              <!-- nombre del usuario -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Nombre:</label>
+              <input
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Enter your name"
+              >
+            </div>
+            <!-- apellidos -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Apellidos: </label>
+              <input
+                type="text"
+                name="last_name"
+                class="form-control"
+                placeholder="Enter your last name"
+              >
+            </div>
+            <!-- preferencias de juego -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Preferencias de juego: </label>
+              <input
+                type="text"
+                name="preferences"
+                class="form-control"
+                placeholder="Enter your preferences"
+              >
+            </div>
+            <!-- e-mail -->
+            <div>
+              <label
+                for="disabledSelect"
+                class="form-label"
+              >E-mail:</label>
+              <input
+                name="email"
+                type="email"
+                class="form-control"
+                placeholder="Enter your e-mail"
+              >
+            </div>
+            <!-- contraseña -->
+            <div>
+              <label
+                for="disabledTextInput"
+                class="form-label"
+              >Contraseña:</label>
+              <input
+                type="password"
+                name="password"
+                class="form-control"
+              >
+            </div>
+            <!-- subida de foto -->
+            <div class="mb-3">
+              <label
+                for="foto"
+                class="form-label text-center position-absolute"
+              >Añade una skin
+                <br><img src="/images/iconphoto.png"><br></label>
+              <input
+                type="file"
+                class="form-control"
+                id="foto"
+                name="image"
+                hidden
+              />
+            </div>
+            <!-- botones para enviar la info, resetear o volver a la pg principal -->
+            <div class="btn d-flex justify-content-evenly">
+              <button
+                class="my-btn mt-3"
+                type="submit"
+              >Enviar</button>
+              <button
+                class="my-btn mt-3"
+                type="reset"
+              >Borrar</button>
+              <button
+                class="my-btn mt-3"
+                onclick="window.location.href='/'"
+              >Volver</button>
+            </div>
+          </form>
+        </div>
+      </section>
+</main>
+     
+      <!-- FOOTER -->
+    <footer>
+      <%-include('modules/footer.ejs')%>
+    </footer>
+  </body>
+
+</html>

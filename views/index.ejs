@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>SOCIALS</title>
+    <!-- Estilos para las cartas de usuarios -->
+    <link
+      rel='stylesheet'
+      href='/stylesheets/card-index.css'
+    />
+     <!-- Links comunes -->
+    <%-include('modules/links.ejs')%>
+  </head>
+
+  <!-- BODY -->
+  <body>
+
+     <!-- NAVBAR -->
+   <header>
+      <%-include('modules/navbar.ejs')%>
+    </header>
+
+    <!-- CONTENIDO -->
+     <main>
+      <!-- Sección principal -->
+      <section class="intro">
+        <img src="/images/image/titulo.PNG">
+        <h1>Directorio del multijuego</h1>
+      </section>
+      <br>
+      <div class="base text-center">
+
+        <!-- Sección secundaria -> tarjetas de jugadores -->
+        <h2>JUGADORES</h2>
+        <section class="cards cont-users row">
+          <% thisUser.forEach((elem)=>{ %>
+            <!-- Carta por cada jugador -->
+            <div class="card text-center">
+              <img
+                src="/images/usuarios/<%= elem.image %>"
+                class="card-img-top"
+                alt="Skin del jugador/a"
+              >
+              <div class="card-body">
+                <h4 class="card-text pb-2">
+                  <%= elem.name %> <%= elem.last_name %>
+                </h4>
+                <a href="/users/user/<%= elem.id_user %>">Mi perfil</a>
+              </div>
+            </div>
+            <% }) %>
+        </section>
+      </div>
+    </main>
+
+         <!-- FOOTER -->
+    <footer>
+      <%-include('modules/footer.ejs')%>
+    </footer>
+     
+  </body>
+
+</html>

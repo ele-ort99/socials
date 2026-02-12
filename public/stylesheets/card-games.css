@@ -1,0 +1,51 @@
+/* ESTILOS PARA LAS CARTAS DE JUEGOS */
+
+.row{
+ display: flex;
+ justify-content: space-around;
+ .card{
+  padding: .7rem;
+  background: linear-gradient(to top, #f48c06 1%, white 50%);
+  border: 1px solid transparent;  
+  border-bottom: 1px solid #f48c06;
+  border-radius: 15px;
+ }
+ .izq{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 130px;
+    height: 180px;
+  }
+ }
+ .derch{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+li{
+  list-style: none;
+}
+h4{
+  font-size: 17px;
+  font-weight: bolder;
+}
+p{
+  font-weight: lighter;
+}
+ }
+
+ .btn{
+  background-color: #c42a82;
+  color: white;
+  padding-block:0;
+ }
+ .btn:hover{
+  background-color: #2de1c0;
+ }
+}
+
