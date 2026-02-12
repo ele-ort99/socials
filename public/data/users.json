@@ -1,0 +1,112 @@
+[
+  {
+    "id_user": 7,
+    "name": "Lucas",
+    "last_name": "Fernández",
+    "email": "lucas@xn--fernndez-cza.com",
+    "password": "$2b$10$JM/ji2ZDQ6hYpARz4c7cnOAa/XDItRljfWTQLWF6dddFEux6549Hu",
+    "preferences": "Juegos de mesa",
+    "image": "1763930493349-skin1.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 8,
+    "name": "María",
+    "last_name": "López",
+    "email": "maria@lopez.com",
+    "password": "$2b$10$5Fp.RHQ/I2NAVvB8KJ6voejDwTYZPYa.zuAC1hYTFS.6u9.qBuK12",
+    "preferences": "Juegos retro",
+    "image": "1763930544918-skin4.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 9,
+    "name": "David",
+    "last_name": "García",
+    "email": "david@garcia.com",
+    "password": "$2b$10$dO0QiJ4mHha1iPIQZIwL1ujeObZ8GAVbcLseMCYT/sZ/IKXxX9J.C",
+    "preferences": "PS5 y Switch",
+    "image": "1763930594443-skin2.jpg",
+    "user_deleted": 1
+  },
+  {
+    "id_user": 10,
+    "name": "Javier",
+    "last_name": "Torres",
+    "email": "javier@torres.com",
+    "password": "$2b$10$3gsPf/twWvWPgfP96Lhof.2eoBm77n40xRMB2ZAx98ExExlr/s/OC",
+    "preferences": "RPG y temática de deporte",
+    "image": "1763930641117-skin7.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 11,
+    "name": "Ana",
+    "last_name": "Martínez",
+    "email": "ana@martinez.com",
+    "password": "$2b$10$ZwIW8yFgo70I9W2WEOejQeHz6A1Ozu4cBkZ1/w8yZG6LI5qsGxbuW",
+    "preferences": "Juegos en equipo",
+    "image": "1763930677988-skin5.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 12,
+    "name": "Carmen",
+    "last_name": "Jiménez",
+    "email": "carmen@jimenez.com",
+    "password": "$2b$10$T7/ru2SsBcAvcHUN4MbUR.oH0DnTe1bLdzqJkC3vomPrrjex9RTBO",
+    "preferences": "Nintendo y estrategia",
+    "image": "1763930733872-skin6.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 13,
+    "name": "Miguel",
+    "last_name": "Rodríguez",
+    "email": "miguel@rodriguez.com",
+    "password": "$2b$10$oGTVFa8ntnU6bMDqUTUEouhbikhf9m3mJrbVlKgc0qRKyT60QYJZK",
+    "preferences": "Juegos de rol y de mesa",
+    "image": "1763930855863-skin10.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 14,
+    "name": "Laura",
+    "last_name": "Sánchez",
+    "email": "laura@sanchez.com",
+    "password": "$2b$10$Tr.T29zAt3q0ACqKBT3kiO3csVCTyFCJJ6.cL952BPCKDrfd87YBe",
+    "preferences": "Switch y juegos retro",
+    "image": "1763930912337-skin9.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 16,
+    "name": "Zuleima",
+    "last_name": "del Rey",
+    "email": "zule@delrey.com",
+    "password": "$2b$10$kU3t58rsi1mbtjLA9S9bRO2rjKvDL01Rgmlau5GwkFddci0k3ZLX2",
+    "preferences": "Juegos de simulación",
+    "image": "1763978161098-skin8.jpg",
+    "user_deleted": 1
+  },
+  {
+    "id_user": 19,
+    "name": "Germán",
+    "last_name": "García",
+    "email": "german@garcia.com",
+    "password": "$2b$10$9IoJ2KUhNfqjVLnNeSo1q.wSHhuohvL5qVi5Mh9ZmOOzhPTarqKMu",
+    "preferences": "Ps5 y Switch",
+    "image": "1764063600991-skin3.jpg",
+    "user_deleted": 0
+  },
+  {
+    "id_user": 20,
+    "name": "Paula",
+    "last_name": "Gómez",
+    "email": "paula@gomez.com",
+    "password": "$2b$10$DjQwK4cVTEWs8XqrNpCmp.YPo1KhvO7EXoF.4ZZy8nGH17tLEBB.i",
+    "preferences": "Un poco de todo",
+    "image": "1764101003377-skin8.jpg",
+    "user_deleted": 0
+  }
+]
