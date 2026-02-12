@@ -5,6 +5,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const users = require('./public/data/users.json');
+const games = require('./public/data/games.json');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

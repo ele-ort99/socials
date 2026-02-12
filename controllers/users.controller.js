@@ -1,160 +1,131 @@
-const connection = require('../config/db');
 const bcrypt = require('bcrypt');
+const users = require('../public/data/users.json');
+const games = require('../public/data/games.json');
+const fs = require('fs');
+const path = require('path');
 
-class UsersController{
+class UsersController {
 
-openFormRegister = (req, res) => {
-res.render('register', {message: ""})
-}
+  openFormRegister = (req, res) => {
+    res.render('register', { message: "" });
+  }
 
-register = (req, res) => {
+  register = async (req, res) => {
+    const { name, last_name, email, password, preferences } = req.body;
 
-const {name, last_name, email, password, preferences} = req.body;
-//validación simple para que no vengan datos vacíos
-
-if(!name||!last_name||!email||!password||!preferences){
-res.render("register", {message: "Debes cumplimentar todos los campos"});
-}else if(!req.file){
-res.render('register', {message:"Es obligatorio usar skin"})
-}else{
-
-//encriptar la contraseña
-bcrypt.hash(password, 10, (err, hash)=>{
-if(err){
-throw err
-}else{
-//guardar en db con la contraseña encriptada
-let sql = `INSERT INTO user (name, last_name, email, password, preferences, image) 
-VALUES (?,?,?,?,?,?)`  
-let values = [name, last_name, email, hash, preferences, req.file.filename]
-
-connection.query(sql, values, (err, result)=>{
-if(err){
-if(err.errno == 1062){
-res.render('register', {message: "El email ya existe"})
-}else{
-throw err
-}
-}else{
-res.redirect('/')
-}
-})                    
-}
-} );
-}
-}
-
-
-addUser = (req, res) => {
-let sql = 'SELECT * FROM user WHERE user_deleted = 0'
-
-connection.query(sql, (err, result)=>{
-if(err){
-throw err;
-}else{
-console.log(result);
-res.render('index', {thisUser: result});
-}
-});
-};
-
-
-openUser = (req, res) =>{
-const {id} = req.params;
-
-let sql = 'SELECT * FROM user WHERE id_user = ?';
-let values = [id];
-
-connection.query(sql, values, (err, result)=>{
-if(err){
-throw err;
-}else{
-let sqlUser = 'SELECT * FROM game WHERE id_user = ? AND game_deleted = 0';
-let valuesUser = [id]
-connection.query(sqlUser, valuesUser, (err2, resultGames)=>{
-if(err2){
-throw err2;
-}else{
-res.render("user", {thisUser: result[0], game: resultGames})
-}
-});
-}
-})
-}
-
-//Abre el formulario para editar un jugador
- openEditUser = (req, res) => {
-      const {id_user} =req.params;
-      let sql = 'SELECT * FROM user WHERE id_user = ?'
-      let values = [id_user]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-        res.render("editUser", {userEdited: result[0], message: ""})
-        }
-      })
-  
-    }
-       
-
-    editUser = (req, res) =>{
-        const { name, last_name, email, preferences } = req.body;
-        const {id_user} = req.params;
-        if(!name||!last_name||!email||!preferences){
-            let datosTemp = {
-            id_user: id_user,
-            name: name,
-            last_name: last_name,
-            email: email,
-            preferences: preferences
-            }
-            res.render("editUser", {userEdited:datosTemp, message: "Debes cumplimentar todo el formulario"})
-        }else{
-
-            let sql = 'UPDATE user SET name=?, last_name=?, email=?, preferences=? WHERE id_user=?'
-            let values = [ name, last_name, email, preferences, id_user ]
-            
-            connection.query(sql, values, (err, result)=>{
-                if(err){
-                    throw err;
-                }else{
-                    res.redirect(`/users/user/${id_user}`)
-                }
-            })
-        }
-    } 
-
-
-    deletedTotalUser = (req, res) => {
-      const {id_user} = req.params
-      let sql = 'DELETE FROM user WHERE id_user = ?'
-      let values = [id_user]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-          res.redirect(`/`)
-        }
-      })
+    if (!name || !last_name || !email || !password || !preferences) {
+      return res.render("register", { message: "Debes cumplimentar todos los campos" });
     }
 
-    deletedUser = (req, res) => {
-      const {id_user} = req.params
-      let sql = 'UPDATE user SET user_deleted = 1 WHERE id_user = ?'
-      let values = [id_user]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-          res.redirect(`/`)
-        }
-      })
+    if (!req.file) {
+      return res.render('register', { message: "Es obligatorio usar skin" });
     }
+
+    // Comprobar si el email ya existe
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+      return res.render('register', { message: "El email ya existe" });
+    }
+
+    // Encriptar contraseña
+    const hash = await bcrypt.hash(password, 10);
+
+    // Crear nuevo usuario
+    const newUser = {
+      id_user: Math.max(...users.map(u => u.id_user)) + 1, // siguiente id
+      name,
+      last_name,
+      email,
+      password: hash,
+      preferences,
+      image: req.file.filename,
+      user_deleted: 0
+    };
+
+    users.push(newUser);
+
+    // Guardar JSON actualizado
+    const filePath = path.join(__dirname, '../public/data/users.json');
+    fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+
+    res.redirect('/');
+  }
+
+  addUser = (req, res) => {
+    const activeUsers = users.filter(u => u.user_deleted === 0);
+    res.render('index', { thisUser: activeUsers });
+  }
+
+  openUser = (req, res) => {
+    const { id } = req.params;
+    const user = users.find(u => u.id_user == id);
+
+    if (!user) return res.status(404).send("Usuario no encontrado");
+
+    const userGames = games.filter(g => g.id_user == id && g.game_deleted === 0);
+
+    res.render('user', { thisUser: user, game: userGames });
+  }
+
+  openEditUser = (req, res) => {
+    const { id_user } = req.params;
+    const user = users.find(u => u.id_user == id_user);
+
+    if (!user) return res.status(404).send("Usuario no encontrado");
+
+    res.render('editUser', { userEdited: user, message: "" });
+  }
+
+  editUser = (req, res) => {
+    const { name, last_name, email, preferences } = req.body;
+    const { id_user } = req.params;
+
+    if (!name || !last_name || !email || !preferences) {
+      const temp = { id_user, name, last_name, email, preferences };
+      return res.render("editUser", { userEdited: temp, message: "Debes cumplimentar todo el formulario" });
+    }
+
+    const user = users.find(u => u.id_user == id_user);
+    if (!user) return res.status(404).send("Usuario no encontrado");
+
+    user.name = name;
+    user.last_name = last_name;
+    user.email = email;
+    user.preferences = preferences;
+
+    // Guardar JSON actualizado
+    const filePath = path.join(__dirname, '../public/data/users.json');
+    fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+
+    res.redirect(`/users/user/${id_user}`);
+  }
+
+  deletedTotalUser = (req, res) => {
+    const { id_user } = req.params;
+    const index = users.findIndex(u => u.id_user == id_user);
+
+    if (index !== -1) {
+      users.splice(index, 1);
+      const filePath = path.join(__dirname, '../public/data/users.json');
+      fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+    }
+
+    res.redirect('/');
+  }
+
+  deletedUser = (req, res) => {
+    const { id_user } = req.params;
+    const user = users.find(u => u.id_user == id_user);
+
+    if (user) {
+      user.user_deleted = 1;
+      const filePath = path.join(__dirname, '../public/data/users.json');
+      fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+    }
+
+    res.redirect('/');
+  }
 
 }
 
-
-
-
-module.exports = new UsersController;
+module.exports = new UsersController();

@@ -1,19 +1,11 @@
-const connection = require('../config/db')
+class IndexController {
+  openHome = (req, res) => {
+    // Filtrar solo usuarios no eliminados
+    const activeUsers = users.filter(user => user.user_deleted === 0);
 
-class IndexController{
-  openHome = (req, res)=>{
-    let sql = 'SELECT * FROM user WHERE user_deleted = 0'
-
-    connection.query(sql, (err, result)=>{
-      if(err){
-        throw err
-      } else{
-      res.render('index', {thisUser: result})}
-    })
-   
-  }
-
+    // Renderizar la vista con los usuarios
+    res.render('index', { thisUser: activeUsers });
+  };
 }
 
-
-module.exports = new IndexController;
+module.exports = new IndexController();

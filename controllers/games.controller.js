@@ -1,147 +1,138 @@
-const connection = require('../config/db')
+const fs = require('fs');
+const path = require('path');
+const users = require('../public/data/users.json');
+const games = require('../public/data/games.json');
 
 class GameController {
 
+  openAddGame = (req, res) => {
+    const { userId } = req.params;
+    res.render('addGame', { message: "", userId });
+  }
 
-openAddGame = (req, res) => {
-  const {userId} = req.params;
-  res.render('addGame', { message: "", userId: userId });
-}
+  addGame = (req, res) => {
+    const { userId } = req.params;
+    const { name, review, stars, platform, year_publication } = req.body;
 
-
-addGame = (req, res) => {
-
-const {userId} = req.params;
-const {name, review, stars, platform, year_publication} = req.body
-if(!userId||!name||!review||!stars||!platform||!year_publication){
-res.render("addGame", {message:"Debes cumplimentar todo el formulario", userId: userId})
-}else if(!req.file){
-res.render('addGame', {message:"Es obligatorio poner imagen", userId: userId})
-}
-else{
-let sql = 'INSERT INTO game (id_user, name, review, stars, platform, year_publication, image) VALUES (?,?,?,?,?,?,?)'
-let values = [userId, name, review, stars, platform, year_publication, req.file.filename]
-connection.query(sql, values, (err, result)=>{
-if(err){
-    throw err;
-}else{
-    res.redirect(`/users/user/${userId}`)
-}
-})
-}
-}
-
-//muestra el formulario
-    openAddNewGameSelect = (req, res) =>{
-        let sql = 'SELECT id_user, name, last_name FROM user WHERE user_deleted = 0'
-        connection.query(sql, (err, result)=>{
-            if(err){
-                throw err;
-            }else{
-                res.render("addNewGameSelect", {thisUser: result, message:""})
-            }
-        })
+    if (!userId || !name || !review || !stars || !platform || !year_publication) {
+      return res.render("addGame", { message: "Debes cumplimentar todo el formulario", userId });
     }
 
-    addNewGameSelect = (req, res) =>{
-        const {id_user, name, review, stars, platform, year_publication} = req.body;
-      
-        if(!id_user||!name||!review||!stars||!platform||!year_publication||!req.body) {
-            let sql = 'SELECT id_user, name, last_name FROM user WHERE user_deleted = 0'
-            connection.query(sql, (err, result)=>{
-                if(err){
-                    throw err;
-                }else{
-                    res.render("addNewGameSelect", {thisUser:result, message: "Debes cumplimentar todo el formulario"})
-                }
-            })
-        }else{
-           let sql = 'INSERT INTO game (id_user, name, review, stars, platform, year_publication, image) VALUES (?,?,?,?,?,?,?)'
-           let values = [id_user, name, review, stars, platform, year_publication, req.file.filename]
-           connection.query(sql, values, (err, result)=>{
-            if(err){
-                throw err;
-            }else{
-                res.redirect(`/users/user/${id_user}`)
-            }
-           })
-        }
+    if (!req.file) {
+      return res.render('addGame', { message: "Es obligatorio poner imagen", userId });
     }
 
+    const newGame = {
+      id_game: Math.max(...games.map(g => g.id_game)) + 1,
+      id_user: parseInt(userId),
+      name,
+      review,
+      stars: parseInt(stars),
+      platform,
+      year_publication: parseInt(year_publication),
+      image: req.file.filename,
+      game_deleted: 0
+    };
 
-    //abre el formulario de edición de un juego
-    openEditGame = (req, res) => {
-      const {id_game} =req.params;
-      let sql = 'SELECT * FROM game WHERE id_game = ?'
-      let values = [id_game]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-        res.render("editGame", {gameEdited: result[0], message: ""})
-        }
-      })
-  
-    }
-       
+    games.push(newGame);
 
-    editGame = (req, res) =>{ 
-        const {id_game, id_user} = req.params;
-        const { name, review, stars, platform } = req.body;
-       
-        if(!name||!review||!stars||!platform){
-          let datosTemp = {
-            id_game: id_game,
-            id_user: id_user,
-            name: name,
-            review: review,
-            stars: stars,
-            platform: platform
-          }
-            res.render("editGame", {gameEdited: datosTemp, message: "¡ Debes cumplimentar todo el formulario !"})
-        }else{
+    const filePath = path.join(__dirname, '../public/data/games.json');
+    fs.writeFileSync(filePath, JSON.stringify(games, null, 2), 'utf-8');
 
-            let sql = 'UPDATE game SET name=?, review=?, stars=?, platform=? WHERE id_game=?'
-            let values = [ name, review, stars, platform, id_game ]
-            
-            connection.query(sql, values, (err, result)=>{
-                if(err){
-                    throw err;
-                }else{
-                    res.redirect(`/users/user/${id_user}`)
-                }
-            })
-        }
-    } 
+    res.redirect(`/users/user/${userId}`);
+  }
 
+  openAddNewGameSelect = (req, res) => {
+    const activeUsers = users.filter(u => u.user_deleted === 0);
+    res.render("addNewGameSelect", { thisUser: activeUsers, message: "" });
+  }
 
-    deletedTotalGame = (req, res) => {
-      const {id_game, id_user} = req.params
-      let sql = 'DELETE FROM game WHERE id_game = ?'
-      let values = [id_game]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-          res.redirect(`/users/user/${id_user}`)
-        }
-      })
+  addNewGameSelect = (req, res) => {
+    const { id_user, name, review, stars, platform, year_publication } = req.body;
+
+    if (!id_user || !name || !review || !stars || !platform || !year_publication || !req.file) {
+      const activeUsers = users.filter(u => u.user_deleted === 0);
+      return res.render("addNewGameSelect", { thisUser: activeUsers, message: "Debes cumplimentar todo el formulario" });
     }
 
-    deletedGame = (req, res) => {
-      const {id_game, id_user} = req.params
-      let sql = 'UPDATE game SET game_deleted = 1 WHERE id_game = ?'
-      let values = [id_game]
-      connection.query(sql, values, (err, result)=>{
-        if(err){
-          throw err
-        }else{
-          res.redirect(`/users/user/${id_user}`)
-        }
-      })
+    const newGame = {
+      id_game: Math.max(...games.map(g => g.id_game)) + 1,
+      id_user: parseInt(id_user),
+      name,
+      review,
+      stars: parseInt(stars),
+      platform,
+      year_publication: parseInt(year_publication),
+      image: req.file.filename,
+      game_deleted: 0
+    };
+
+    games.push(newGame);
+
+    const filePath = path.join(__dirname, '../public/data/games.json');
+    fs.writeFileSync(filePath, JSON.stringify(games, null, 2), 'utf-8');
+
+    res.redirect(`/users/user/${id_user}`);
+  }
+
+  openEditGame = (req, res) => {
+    const { id_game } = req.params;
+    const game = games.find(g => g.id_game == id_game);
+
+    if (!game) return res.status(404).send("Juego no encontrado");
+
+    res.render("editGame", { gameEdited: game, message: "" });
+  }
+
+  editGame = (req, res) => {
+    const { id_game, id_user } = req.params;
+    const { name, review, stars, platform } = req.body;
+
+    if (!name || !review || !stars || !platform) {
+      const temp = { id_game, id_user, name, review, stars, platform };
+      return res.render("editGame", { gameEdited: temp, message: "¡ Debes cumplimentar todo el formulario !" });
     }
+
+    const game = games.find(g => g.id_game == id_game);
+    if (!game) return res.status(404).send("Juego no encontrado");
+
+    game.name = name;
+    game.review = review;
+    game.stars = parseInt(stars);
+    game.platform = platform;
+
+    const filePath = path.join(__dirname, '../public/data/games.json');
+    fs.writeFileSync(filePath, JSON.stringify(games, null, 2), 'utf-8');
+
+    res.redirect(`/users/user/${id_user}`);
+  }
+
+  deletedTotalGame = (req, res) => {
+    const { id_game, id_user } = req.params;
+    const index = games.findIndex(g => g.id_game == id_game);
+
+    if (index !== -1) {
+      games.splice(index, 1);
+      const filePath = path.join(__dirname, '../public/data/games.json');
+      fs.writeFileSync(filePath, JSON.stringify(games, null, 2), 'utf-8');
+    }
+
+    res.redirect(`/users/user/${id_user}`);
+  }
+
+  deletedGame = (req, res) => {
+    const { id_game, id_user } = req.params;
+    const game = games.find(g => g.id_game == id_game);
+
+    if (game) {
+      game.game_deleted = 1;
+      const filePath = path.join(__dirname, '../public/data/games.json');
+      fs.writeFileSync(filePath, JSON.stringify(games, null, 2), 'utf-8');
+    }
+
+    res.redirect(`/users/user/${id_user}`);
+  }
 
 }
 
-
-    module.exports = new GameController;
+module.exports = new GameController();
