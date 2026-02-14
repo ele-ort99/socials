@@ -7,8 +7,8 @@ const path = require('path');
 const usersPath = path.join(__dirname, '../public/data/users.json');
 const gamesPath = path.join(__dirname, '../public/data/games.json');
 
-const users = require(usersPath);
-const games = require(gamesPath);
+let users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
+let games = JSON.parse(fs.readFileSync(gamesPath, 'utf-8'));
 
 class UsersController {
 
@@ -52,7 +52,8 @@ class UsersController {
 
     // Guardar JSON actualizado
     const filePath = path.join(__dirname, '../public/data/users.json');
-    fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), 'utf-8');
+  users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
 
     res.redirect('/');
   }
@@ -101,7 +102,8 @@ class UsersController {
 
     // Guardar JSON actualizado
     const filePath = path.join(__dirname, '../public/data/users.json');
-    fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), 'utf-8');
+  users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
 
     res.redirect(`/users/user/${id_user}`);
   }
@@ -113,7 +115,8 @@ class UsersController {
     if (index !== -1) {
       users.splice(index, 1);
       const filePath = path.join(__dirname, '../public/data/users.json');
-      fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+        fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), 'utf-8');
+  users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
     }
 
     res.redirect('/');
@@ -126,7 +129,8 @@ class UsersController {
     if (user) {
       user.user_deleted = 1;
       const filePath = path.join(__dirname, '../public/data/users.json');
-      fs.writeFileSync(filePath, JSON.stringify(users, null, 2), 'utf-8');
+        fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), 'utf-8');
+  users = JSON.parse(fs.readFileSync(usersPath, 'utf-8'));
     }
 
     res.redirect('/');
