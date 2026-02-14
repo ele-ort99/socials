@@ -4,6 +4,12 @@ const games = require('../public/data/games.json');
 const fs = require('fs');
 const path = require('path');
 
+const usersPath = path.join(__dirname, '../public/data/users.json');
+const gamesPath = path.join(__dirname, '../public/data/games.json');
+
+const users = require(usersPath);
+const games = require(gamesPath);
+
 class UsersController {
 
   openFormRegister = (req, res) => {
